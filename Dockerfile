@@ -1,8 +1,9 @@
 FROM node:latest
-RUN apt-get update && apt-get install openjdk-8-jre-headless jq curl wget -y
+RUN apt-get update && apt-get install openjdk-8-jre-headless curl wget -y
 COPY verification-server .
-RUN curl https://api.github.com/repos/utwente-fmt/vercors/releases/latest | \
-    jq -r '.assets[] | select(.content_type == "application/vnd.debian.binary-package") | .browser_download_url' | \
-    xargs -n1 wget -O vercors.deb -
+RUN curl -s https://api.github.com/repos/utwente-fmt/vercors/releases/latest | \
+    grep "browser_download_url.*deb" | \
+    cut -d '"' -f 4 | \
+    xargs -n1 wget -qO vercors.deb -
 RUN dpkg -i vercors.deb
 CMD ["npm", "start"]

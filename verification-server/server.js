@@ -52,10 +52,6 @@ wsServer.on('request', (req) => {
       }
     }
   });
-
-  conn.on('close', function() {
-
-  });
 });
 
 function submit(conn, lang, data) {
@@ -68,7 +64,7 @@ function submit(conn, lang, data) {
       conn.sendUTF(JSON.stringify({'type': 'finished', 'id': id, 'error': true, 'errorDescription': e}));
     }
 
-    const p = child_process.spawn('/home/pieter/vercors/bin/vct', ['--silicon', file, '--progress'], {
+    const p = child_process.spawn('vercors', ['--silicon', file, '--progress'], {
       detached: true,
     });
 

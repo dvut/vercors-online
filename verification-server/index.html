@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>VerCors online</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      window.addEventListener('load', () => {
+        const ws = new WebSocket('ws://localhost:1234', 'vercors');
+        ws.onerror = (e) => { console.log(e); }
+        ws.onmessage = (e) => { console.log(JSON.parse(e.data)); }
+
+        ws.onopen = () => {
+          ws.send(JSON.stringify({type: 'submit', lang: 'pvl', data: 'class Test{}'}));
+        }
+      });
+    </script>
+  </body>
+</html>
